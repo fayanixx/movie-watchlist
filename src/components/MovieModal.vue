@@ -124,27 +124,28 @@ defineEmits(['close', 'save']);
 
 <style scoped>
 .ios-popup-modal {
-  --background: rgba(8, 11, 18, 0.65);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  --background: rgba(6, 9, 15, 0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   --width: 92%;
   --max-width: 440px;
   --height: auto;
   --max-height: 90vh;
   --border-radius: 22px;
+  transform: translateZ(0);
 }
 
 .modal-ios-content {
-  padding: 20px 20px 22px 20px;
-  background: rgba(14, 18, 28, 0.98);
+  padding: 22px 22px 24px 22px;
+  background: #101524;
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
   color: #ffffff;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.75);
   border-radius: 22px;
 }
 
@@ -152,12 +153,12 @@ defineEmits(['close', 'save']);
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .ios-subtitle {
   font-family: 'Inter', sans-serif;
-  font-size: 0.62rem;
+  font-size: 0.65rem;
   letter-spacing: 1.5px;
   font-weight: 700;
   color: #f87171;
@@ -166,7 +167,7 @@ defineEmits(['close', 'save']);
 .ios-title {
   margin: 2px 0 0 0;
   font-family: 'Poppins', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: #ffffff;
 }
@@ -175,8 +176,8 @@ defineEmits(['close', 'save']);
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #94a3b8;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -188,13 +189,13 @@ defineEmits(['close', 'save']);
 .ios-form-stack {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 .ios-field-group {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
 
 .ios-field-group label {
@@ -202,7 +203,7 @@ defineEmits(['close', 'save']);
   align-items: center;
   gap: 5px;
   font-family: 'Inter', sans-serif;
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 600;
   text-transform: uppercase;
   color: #94a3b8;
@@ -210,7 +211,7 @@ defineEmits(['close', 'save']);
 }
 
 .label-ico {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: #f87171;
 }
 
@@ -222,22 +223,23 @@ defineEmits(['close', 'save']);
 
 .rating-pill-tag {
   font-family: 'Poppins', sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: #fbbf24;
 }
 
 .ios-text-input {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 10px;
-  padding: 10px 12px;
+  background: rgba(13, 17, 26, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px 14px;
   color: #ffffff;
   font-family: 'Inter', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   outline: none;
   width: 100%;
   box-sizing: border-box;
+  transition: border-color 0.2s;
 }
 
 .ios-text-input:focus {
@@ -249,34 +251,39 @@ defineEmits(['close', 'save']);
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(13, 17, 26, 0.9);
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 15px;
+  padding-right: 36px;
   cursor: pointer;
 }
 
 .ios-select option {
-  background-color: #121622;
+  background-color: #101524;
   color: #ffffff;
-  padding: 10px;
+  padding: 12px;
 }
 
 .ios-grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 12px;
 }
 
 .ios-star-picker {
   display: flex;
   gap: 8px;
-  padding: 6px 12px;
+  padding: 8px 14px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 10px;
+  border-radius: 12px;
   align-items: center;
 }
 
 .picker-star {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   color: #334155;
   cursor: pointer;
 }
@@ -288,21 +295,21 @@ defineEmits(['close', 'save']);
 .ios-status-segmented {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 6px;
+  gap: 8px;
 }
 
 .seg-ios-tab {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  padding: 8px;
-  border-radius: 8px;
+  gap: 6px;
+  padding: 10px;
+  border-radius: 10px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.07);
   color: #94a3b8;
   font-family: 'Inter', sans-serif;
-  font-size: 0.74rem;
+  font-size: 0.78rem;
   font-weight: 600;
   cursor: pointer;
 }
@@ -320,17 +327,17 @@ defineEmits(['close', 'save']);
 }
 
 .ios-primary-action-btn {
-  margin-top: 6px;
+  margin-top: 8px;
   width: 100%;
-  padding: 11px;
-  border-radius: 10px;
+  padding: 13px;
+  border-radius: 12px;
   border: none;
   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   color: #ffffff;
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
-  font-size: 0.88rem;
+  font-size: 0.92rem;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.45);
 }
 </style>

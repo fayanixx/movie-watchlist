@@ -3,10 +3,18 @@
     <div class="ios-ambient-orb red-orb"></div>
     <div class="ios-ambient-orb blue-orb"></div>
 
+    <transition name="toast-slide">
+      <div v-if="toast.show" class="ios-toast-pill" :class="toast.type">
+        <ion-icon :icon="toast.icon" class="toast-ico"></ion-icon>
+        <span class="toast-txt">{{ toast.message }}</span>
+      </div>
+    </transition>
+
     <ion-header class="ion-no-border">
       <ion-toolbar class="ios-glass-toolbar">
         <div class="ios-nav-inner">
-          <div class="brand-group-ios">
+          <div class="brand-group-ios" @click="scrollToTop" title="Back to top">
+            <ion-icon :icon="listOutline" class="brand-emblem-icon"></ion-icon>
             <h1 class="ios-app-title">
               <span class="flix-red">FLIX</span><span class="list-white">LIST</span>
             </h1>
@@ -18,7 +26,7 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-content class="ios-content-view">
+    <ion-content ref="contentRef" class="ios-content-view">
       <div class="ios-wrapper">
         <div class="ios-banner-card">
           <div class="banner-top-row">
@@ -137,7 +145,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonContent, IonIcon } from '@ionic/vue';
-import { filmOutline, searchOutline, trashOutline } from 'ionicons/icons';
+import { filmOutline, searchOutline, trashOutline, checkmarkCircle, createOutline, addCircle, listOutline } from 'ionicons/icons';
 import { db } from '@/firebase';
 import { ref as dbRef, push, update, remove, onValue } from 'firebase/database';
 import MovieCard from '@/components/MovieCard.vue';
@@ -152,8 +160,12 @@ interface Movie {
   status: 'Watched' | 'Not Watched';
 }
 
-const movies = ref<Movie[]>([]);
+const contentRef = ref<any>(null);
+const scrollToTop = () => {
+  contentRef.value?.$el.scrollToTop(400);
+};
 
+const movies = ref<Movie[]>([]);
 const activeFilter = ref<'all' | 'not-watched' | 'watched'>('all');
 const searchQuery = ref('');
 const selectedGenre = ref('All');
@@ -175,7 +187,27 @@ const formData = ref({
   status: 'Not Watched' as 'Watched' | 'Not Watched'
 });
 
-// Fetch Real-time data from Firebase on mounted
+const toast = ref({
+  show: false,
+  message: '',
+  type: 'success',
+  icon: checkmarkCircle
+});
+
+let toastTimeout: any = null;
+const triggerToast = (message: string, type: 'success' | 'delete' | 'edit', icon: any) => {
+  if (toastTimeout) clearTimeout(toastTimeout);
+  toast.value = {
+    show: true,
+    message,
+    type,
+    icon
+  };
+  toastTimeout = setTimeout(() => {
+    toast.value.show = false;
+  }, 2600);
+};
+
 onMounted(() => {
   const moviesRef = dbRef(db, 'movies');
   onValue(moviesRef, (snapshot) => {
@@ -184,7 +216,7 @@ onMounted(() => {
       movies.value = Object.keys(data).map(key => ({
         id: key,
         ...data[key]
-      })).reverse(); // Latest added on top
+      })).reverse();
     } else {
       movies.value = [];
     }
@@ -237,7 +269,6 @@ const saveMovie = async () => {
   if (!formData.value.title.trim()) return;
 
   if (isEditing.value && currentEditId.value !== null) {
-    // UPDATE operation sa Firebase
     const movieRef = dbRef(db, `movies/${currentEditId.value}`);
     await update(movieRef, {
       title: formData.value.title,
@@ -246,8 +277,8 @@ const saveMovie = async () => {
       rating: formData.value.rating,
       status: formData.value.status
     });
+    triggerToast(`"${formData.value.title}" updated`, 'edit', createOutline);
   } else {
-    // CREATE (Push) operation sa Firebase
     const moviesRef = dbRef(db, 'movies');
     await push(moviesRef, {
       title: formData.value.title,
@@ -256,6 +287,7 @@ const saveMovie = async () => {
       rating: formData.value.rating,
       status: formData.value.status
     });
+    triggerToast(`"${formData.value.title}" added to list`, 'success', addCircle);
   }
 
   isModalOpen.value = false;
@@ -265,6 +297,11 @@ const toggleStatus = async (movie: Movie) => {
   const newStatus = movie.status === 'Watched' ? 'Not Watched' : 'Watched';
   const movieRef = dbRef(db, `movies/${movie.id}`);
   await update(movieRef, { status: newStatus });
+  triggerToast(
+    newStatus === 'Watched' ? `Marked "${movie.title}" as Watched` : `Moved "${movie.title}" to Queue`,
+    'success',
+    checkmarkCircle
+  );
 };
 
 const confirmDelete = (id: string) => {
@@ -278,8 +315,10 @@ const confirmDelete = (id: string) => {
 
 const executeDelete = async () => {
   if (movieToDeleteId.value !== null) {
+    const title = movieToDeleteTitle.value;
     const movieRef = dbRef(db, `movies/${movieToDeleteId.value}`);
     await remove(movieRef);
+    triggerToast(`"${title}" deleted`, 'delete', trashOutline);
   }
   isDeleteAlertOpen.value = false;
   movieToDeleteId.value = null;
@@ -300,35 +339,108 @@ const resetFilters = () => {
   font-family: 'Inter', sans-serif;
 }
 
+.brand-group-ios {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Mas malaki ang icon (1.9rem) kaysa sa app title text (1.35rem) */
+.brand-emblem-icon {
+  font-size: 1.9rem;
+  color: #ef4444;
+  filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.5));
+  transition: transform 0.2s ease;
+}
+
+.brand-group-ios:active .brand-emblem-icon {
+  transform: scale(0.92);
+}
+
+.ios-toast-pill {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 68px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  background: rgba(16, 21, 36, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+  z-index: 999999;
+  max-width: 90%;
+}
+
+.toast-ico {
+  font-size: 1.25rem;
+}
+
+.toast-txt {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ios-toast-pill.success .toast-ico { color: #4ade80; }
+.ios-toast-pill.edit .toast-ico { color: #38bdf8; }
+.ios-toast-pill.delete .toast-ico { color: #f87171; }
+.ios-toast-pill.delete { border-color: rgba(248, 113, 113, 0.25); }
+
+.toast-slide-enter-active,
+.toast-slide-leave-active {
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.toast-slide-enter-from {
+  opacity: 0;
+  transform: translate(-50%, -18px) scale(0.92);
+}
+.toast-slide-leave-to {
+  opacity: 0;
+  transform: translate(-50%, -12px) scale(0.96);
+}
+
 .ios-ambient-orb {
   position: fixed;
   border-radius: 50%;
   pointer-events: none;
   z-index: 0;
 }
+
 .red-orb {
   top: -40px;
   left: -40px;
-  width: 260px;
-  height: 260px;
+  width: 280px;
+  height: 280px;
   background: rgba(239, 68, 68, 0.12);
-  filter: blur(85px);
+  filter: blur(90px);
 }
+
 .blue-orb {
   bottom: 8%;
   right: -40px;
-  width: 260px;
-  height: 260px;
+  width: 280px;
+  height: 280px;
   background: rgba(56, 189, 248, 0.08);
-  filter: blur(95px);
+  filter: blur(100px);
 }
 
 .ios-glass-toolbar {
-  --background: rgba(13, 17, 26, 0.9);
+  --background: rgba(13, 17, 26, 0.94);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  padding: calc(env(safe-area-inset-top, 0px) + 8px) 18px 10px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: calc(env(safe-area-inset-top, 0px) + 10px) 18px 12px 18px;
 }
 
 .ios-nav-inner {
@@ -357,13 +469,13 @@ const resetFilters = () => {
 }
 
 .ios-text-add-btn {
-  background: rgba(239, 68, 68, 0.16);
-  border: 1px solid rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.18);
+  border: 1px solid rgba(239, 68, 68, 0.4);
   color: #f87171;
-  padding: 6px 14px;
-  border-radius: 16px;
+  padding: 8px 16px;
+  border-radius: 18px;
   font-family: 'Inter', sans-serif;
-  font-size: 0.84rem;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
@@ -375,8 +487,8 @@ const resetFilters = () => {
 
 .ios-content-view {
   --background: transparent;
-  --padding-top: 16px;
-  --padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 36px);
+  --padding-top: 18px;
+  --padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 40px);
   --padding-start: 18px;
   --padding-end: 18px;
   position: relative;
@@ -387,51 +499,52 @@ const resetFilters = () => {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 16px;
   position: relative;
   z-index: 1;
 }
 
 .ios-banner-card {
-  background: rgba(20, 25, 38, 0.55);
+  background: rgba(20, 25, 38, 0.65);
   border: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(16px);
-  border-radius: 16px;
-  padding: 16px 18px;
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 18px;
+  padding: 18px 20px;
 }
 
 .banner-top-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .ios-badge-tag {
   font-family: 'Inter', sans-serif;
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   font-weight: 700;
   color: #f87171;
   letter-spacing: 1.3px;
 }
 
 .banner-ico {
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   color: #64748b;
 }
 
 .banner-heading {
   font-family: 'Poppins', sans-serif;
-  font-size: 1.22rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: #ffffff;
-  margin: 0 0 4px 0;
+  margin: 0 0 6px 0;
 }
 
 .banner-subtext {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   color: #94a3b8;
-  line-height: 1.4;
+  line-height: 1.45;
   margin: 0;
 }
 
@@ -439,11 +552,12 @@ const resetFilters = () => {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background: rgba(20, 25, 38, 0.65);
+  background: rgba(20, 25, 38, 0.7);
   backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 16px;
-  padding: 12px 16px;
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 14px 18px;
 }
 
 .stat-cell {
@@ -454,7 +568,7 @@ const resetFilters = () => {
 
 .stat-val {
   font-family: 'Poppins', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.35rem;
   font-weight: 700;
   color: #ffffff;
 }
@@ -463,31 +577,31 @@ const resetFilters = () => {
 .stat-val.red { color: #f87171; }
 
 .stat-lbl {
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 600;
   text-transform: uppercase;
   color: #64748b;
-  margin-top: 2px;
+  margin-top: 3px;
 }
 
 .stat-div {
   width: 1px;
-  height: 22px;
+  height: 26px;
   background: rgba(255, 255, 255, 0.08);
 }
 
 .ios-search-bar {
   display: flex;
   align-items: center;
-  gap: 10px;
-  background: rgba(20, 25, 38, 0.65);
+  gap: 12px;
+  background: rgba(20, 25, 38, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 9px 14px;
+  border-radius: 14px;
+  padding: 11px 16px;
 }
 
 .ios-s-icon {
-  font-size: 1.05rem;
+  font-size: 1.18rem;
   color: #64748b;
 }
 
@@ -497,7 +611,7 @@ const resetFilters = () => {
   border: none;
   outline: none;
   color: #ffffff;
-  font-size: 0.88rem;
+  font-size: 0.95rem;
 }
 
 .ios-s-clear {
@@ -505,15 +619,16 @@ const resetFilters = () => {
   border: none;
   color: #64748b;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
+  padding: 4px;
 }
 
 .ios-segmented-control {
   display: flex;
-  background: rgba(20, 25, 38, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 12px;
-  padding: 4px;
+  background: rgba(20, 25, 38, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 5px;
 }
 
 .ios-seg-item {
@@ -522,22 +637,22 @@ const resetFilters = () => {
   border: none;
   color: #94a3b8;
   font-family: 'Inter', sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  padding: 8px 12px;
-  border-radius: 9px;
+  padding: 10px 14px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
 .ios-seg-item.selected {
   background: #ef4444;
   color: #ffffff;
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);
+  box-shadow: 0 2px 10px rgba(239, 68, 68, 0.35);
 }
 
 .ios-genre-chips {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   overflow-x: auto;
   scrollbar-width: none;
   padding-bottom: 4px;
@@ -545,12 +660,12 @@ const resetFilters = () => {
 .ios-genre-chips::-webkit-scrollbar { display: none; }
 
 .ios-chip {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   color: #94a3b8;
-  padding: 6px 13px;
-  border-radius: 16px;
-  font-size: 0.76rem;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.82rem;
   font-weight: 500;
   white-space: nowrap;
   cursor: pointer;
@@ -566,7 +681,7 @@ const resetFilters = () => {
 .ios-movie-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 14px;
+  gap: 16px;
 }
 
 @media (min-width: 600px) {
@@ -585,37 +700,37 @@ const resetFilters = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 20px;
+  padding: 44px 20px;
   text-align: center;
 }
 
 .ios-empty-icon-wrap {
-  width: 50px;
-  height: 50px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.04);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 26px;
   color: #475569;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .ios-empty-text {
   color: #64748b;
-  font-size: 0.84rem;
-  margin: 0 0 12px 0;
+  font-size: 0.9rem;
+  margin: 0 0 14px 0;
 }
 
 .ios-reset-btn {
-  background: rgba(239, 68, 68, 0.14);
-  border: 1px solid rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.16);
+  border: 1px solid rgba(239, 68, 68, 0.4);
   color: #f87171;
-  font-size: 0.78rem;
+  font-size: 0.84rem;
   font-weight: 600;
-  padding: 6px 14px;
-  border-radius: 10px;
+  padding: 8px 16px;
+  border-radius: 12px;
   cursor: pointer;
 }
 
@@ -625,87 +740,82 @@ const resetFilters = () => {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(8, 11, 18, 0.75);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(6, 9, 15, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
   padding: 24px;
+  transform: translateZ(0);
 }
 
 .ios-alert-card {
-  background: rgba(18, 23, 36, 0.96);
+  background: #101524;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 22px;
   padding: 24px;
   width: 100%;
   max-width: 340px;
   text-align: center;
-  box-shadow: 0 24px 44px rgba(0, 0, 0, 0.65);
-  animation: scaleUp 0.2s ease-out;
-}
-
-@keyframes scaleUp {
-  from { transform: scale(0.92); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  box-shadow: 0 24px 44px rgba(0, 0, 0, 0.75);
 }
 
 .ios-alert-icon-box {
-  width: 50px;
-  height: 50px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   background: rgba(239, 68, 68, 0.16);
   color: #f87171;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   margin: 0 auto 14px auto;
   border: 1px solid rgba(239, 68, 68, 0.35);
 }
 
 .alert-title {
   font-family: 'Poppins', sans-serif;
-  font-size: 1.18rem;
+  font-size: 1.22rem;
   font-weight: 700;
   color: #ffffff;
-  margin: 0 0 6px 0;
+  margin: 0 0 8px 0;
 }
 
 .alert-desc {
   font-family: 'Inter', sans-serif;
-  font-size: 0.82rem;
+  font-size: 0.86rem;
   color: #94a3b8;
-  margin: 0 0 20px 0;
-  line-height: 1.45;
+  margin: 0 0 22px 0;
+  line-height: 1.5;
 }
 
 .ios-alert-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 12px;
 }
 
 .ios-alert-btn {
-  padding: 11px;
+  padding: 12px;
   border-radius: 12px;
   font-family: 'Inter', sans-serif;
-  font-size: 0.84rem;
+  font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
   border: none;
 }
 
 .ios-alert-btn.cancel {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.08);
   color: #cbd5e1;
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .ios-alert-btn.confirm {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  background: #ef4444;
   color: #ffffff;
   box-shadow: 0 4px 14px rgba(239, 68, 68, 0.45);
 }
