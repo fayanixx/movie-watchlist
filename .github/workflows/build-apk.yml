@@ -45,7 +45,7 @@ jobs:
       # 4. Install project dependencies
       # ----------------------------------------------------------
       - name: Install npm dependencies
-        run: npm ci
+        run: npm install
 
 
       # ----------------------------------------------------------
