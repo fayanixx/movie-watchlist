@@ -1,0 +1,7 @@
+{
+  "name": "movie-watchlist",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
