@@ -35,8 +35,11 @@ jobs:
       # 3. Create .env file from GitHub Secrets
       # ----------------------------------------------------------
       - name: Make environment variables
+        env:
+          ENV_FILE: ${{ secrets.ENV_FILE }}
         run: |
-        echo "${{ secrets.ENV_FILE }}" > .env
+          echo "$ENV_FILE" > .env
+
 
       # ----------------------------------------------------------
       # 4. Install project dependencies
