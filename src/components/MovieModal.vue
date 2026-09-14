@@ -123,10 +123,11 @@ defineEmits(['close', 'save']);
 </script>
 
 <style scoped>
+/* Pinuwersa nating maging super blurry at madilim ang background ng modal */
 .ios-popup-modal {
-  --background: rgba(6, 9, 15, 0.82);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  --background: rgba(6, 9, 15, 0.92) !important;
+  backdrop-filter: blur(25px) !important;
+  -webkit-backdrop-filter: blur(25px) !important;
   --width: 92%;
   --max-width: 440px;
   --height: auto;
@@ -137,15 +138,15 @@ defineEmits(['close', 'save']);
 
 .modal-ios-content {
   padding: 22px 22px 24px 22px;
-  background: #101524;
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
+  background: rgba(16, 21, 36, 0.98) !important;
+  backdrop-filter: blur(35px);
+  -webkit-backdrop-filter: blur(35px);
   color: #ffffff;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.85);
   border-radius: 22px;
 }
 
@@ -229,11 +230,11 @@ defineEmits(['close', 'save']);
 }
 
 .ios-text-input {
-  background: rgba(13, 17, 26, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(13, 17, 26, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
   border-radius: 12px;
   padding: 12px 14px;
-  color: #ffffff;
+  color: #ffffff !important;
   font-family: 'Inter', sans-serif;
   font-size: 0.9rem;
   outline: none;
@@ -243,27 +244,29 @@ defineEmits(['close', 'save']);
 }
 
 .ios-text-input:focus {
-  border-color: #f87171;
-  background: rgba(255, 255, 255, 0.08);
+  border-color: #f87171 !important;
+  background: rgba(20, 25, 38, 1) !important;
 }
 
+/* Matinding Fix para sa Genre Dropdown sa Android Phone */
 .ios-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-color: rgba(13, 17, 26, 0.9);
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 15px;
-  padding-right: 36px;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-color: rgba(13, 17, 26, 0.95) !important;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f87171' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 14px center !important;
+  background-size: 16px !important;
+  padding-right: 40px !important;
   cursor: pointer;
 }
 
+/* Pagpasa ng solid dark theme sa bawat pagpipilian ng dropdown sa mobile */
 .ios-select option {
-  background-color: #101524;
-  color: #ffffff;
-  padding: 12px;
+  background-color: #101524 !important;
+  color: #ffffff !important;
+  padding: 14px !important;
 }
 
 .ios-grid-2 {
