@@ -307,28 +307,28 @@ const resetFilters = () => {
   z-index: 0;
 }
 .red-orb {
-  top: -50px;
-  left: -50px;
-  width: 240px;
-  height: 240px;
-  background: rgba(239, 68, 68, 0.1);
-  filter: blur(80px);
+  top: -40px;
+  left: -40px;
+  width: 260px;
+  height: 260px;
+  background: rgba(239, 68, 68, 0.12);
+  filter: blur(85px);
 }
 .blue-orb {
-  bottom: 10%;
-  right: -50px;
-  width: 240px;
-  height: 240px;
-  background: rgba(56, 189, 248, 0.06);
-  filter: blur(90px);
+  bottom: 8%;
+  right: -40px;
+  width: 260px;
+  height: 260px;
+  background: rgba(56, 189, 248, 0.08);
+  filter: blur(95px);
 }
 
 .ios-glass-toolbar {
-  --background: rgba(13, 17, 26, 0.85);
+  --background: rgba(13, 17, 26, 0.9);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 4px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: calc(env(safe-area-inset-top, 0px) + 8px) 18px 10px 18px;
 }
 
 .ios-nav-inner {
@@ -342,14 +342,14 @@ const resetFilters = () => {
 .ios-app-title {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.35rem;
   font-weight: 800;
   letter-spacing: 0.5px;
 }
 
 .flix-red {
   color: #ef4444;
-  text-shadow: 0 0 12px rgba(239, 68, 68, 0.5);
+  text-shadow: 0 0 14px rgba(239, 68, 68, 0.55);
 }
 
 .list-white {
@@ -357,28 +357,28 @@ const resetFilters = () => {
 }
 
 .ios-text-add-btn {
-  background: rgba(239, 68, 68, 0.15);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.16);
+  border: 1px solid rgba(239, 68, 68, 0.35);
   color: #f87171;
-  padding: 5px 12px;
-  border-radius: 14px;
+  padding: 6px 14px;
+  border-radius: 16px;
   font-family: 'Inter', sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.84rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
 }
 
-.ios-text-add-btn:hover {
-  background: rgba(239, 68, 68, 0.25);
+.ios-text-add-btn:active {
+  transform: scale(0.96);
 }
 
 .ios-content-view {
   --background: transparent;
-  --padding-top: 14px;
-  --padding-bottom: 24px;
-  --padding-start: 16px;
-  --padding-end: 16px;
+  --padding-top: 16px;
+  --padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 36px);
+  --padding-start: 18px;
+  --padding-end: 18px;
   position: relative;
 }
 
@@ -387,50 +387,51 @@ const resetFilters = () => {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 15px;
   position: relative;
   z-index: 1;
 }
 
 .ios-banner-card {
-  background: rgba(20, 25, 38, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(20, 25, 38, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(16px);
-  border-radius: 14px;
-  padding: 14px 16px;
+  border-radius: 16px;
+  padding: 16px 18px;
 }
 
 .banner-top-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
 .ios-badge-tag {
   font-family: 'Inter', sans-serif;
-  font-size: 0.58rem;
+  font-size: 0.65rem;
   font-weight: 700;
   color: #f87171;
-  letter-spacing: 1.2px;
+  letter-spacing: 1.3px;
 }
 
 .banner-ico {
-  font-size: 0.95rem;
-  color: #475569;
+  font-size: 1.1rem;
+  color: #64748b;
 }
 
 .banner-heading {
   font-family: 'Poppins', sans-serif;
-  font-size: 1.1rem;
+  font-size: 1.22rem;
   font-weight: 700;
   color: #ffffff;
-  margin: 0 0 2px 0;
+  margin: 0 0 4px 0;
 }
 
 .banner-subtext {
-  font-size: 0.73rem;
+  font-size: 0.8rem;
   color: #94a3b8;
+  line-height: 1.4;
   margin: 0;
 }
 
@@ -438,11 +439,11 @@ const resetFilters = () => {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background: rgba(20, 25, 38, 0.6);
+  background: rgba(20, 25, 38, 0.65);
   backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 14px;
-  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 12px 16px;
 }
 
 .stat-cell {
@@ -453,7 +454,7 @@ const resetFilters = () => {
 
 .stat-val {
   font-family: 'Poppins', sans-serif;
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: #ffffff;
 }
@@ -462,30 +463,31 @@ const resetFilters = () => {
 .stat-val.red { color: #f87171; }
 
 .stat-lbl {
-  font-size: 0.6rem;
+  font-size: 0.68rem;
   font-weight: 600;
   text-transform: uppercase;
   color: #64748b;
+  margin-top: 2px;
 }
 
 .stat-div {
   width: 1px;
-  height: 18px;
-  background: rgba(255, 255, 255, 0.06);
+  height: 22px;
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .ios-search-bar {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(20, 25, 38, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 10px;
-  padding: 7px 12px;
+  gap: 10px;
+  background: rgba(20, 25, 38, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 9px 14px;
 }
 
 .ios-s-icon {
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   color: #64748b;
 }
 
@@ -495,7 +497,7 @@ const resetFilters = () => {
   border: none;
   outline: none;
   color: #ffffff;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
 }
 
 .ios-s-clear {
@@ -503,15 +505,15 @@ const resetFilters = () => {
   border: none;
   color: #64748b;
   cursor: pointer;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
 }
 
 .ios-segmented-control {
   display: flex;
-  background: rgba(20, 25, 38, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 10px;
-  padding: 3px;
+  background: rgba(20, 25, 38, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 4px;
 }
 
 .ios-seg-item {
@@ -520,35 +522,35 @@ const resetFilters = () => {
   border: none;
   color: #94a3b8;
   font-family: 'Inter', sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  padding: 6px 10px;
-  border-radius: 8px;
+  padding: 8px 12px;
+  border-radius: 9px;
   cursor: pointer;
 }
 
 .ios-seg-item.selected {
   background: #ef4444;
   color: #ffffff;
-  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.35);
 }
 
 .ios-genre-chips {
   display: flex;
-  gap: 6px;
+  gap: 8px;
   overflow-x: auto;
   scrollbar-width: none;
-  padding-bottom: 2px;
+  padding-bottom: 4px;
 }
 .ios-genre-chips::-webkit-scrollbar { display: none; }
 
 .ios-chip {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   color: #94a3b8;
-  padding: 4px 10px;
-  border-radius: 14px;
-  font-size: 0.68rem;
+  padding: 6px 13px;
+  border-radius: 16px;
+  font-size: 0.76rem;
   font-weight: 500;
   white-space: nowrap;
   cursor: pointer;
@@ -564,7 +566,7 @@ const resetFilters = () => {
 .ios-movie-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 12px;
+  gap: 14px;
 }
 
 @media (min-width: 600px) {
@@ -583,37 +585,37 @@ const resetFilters = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 35px 20px;
+  padding: 40px 20px;
   text-align: center;
 }
 
 .ios-empty-icon-wrap {
-  width: 44px;
-  height: 44px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.04);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 24px;
   color: #475569;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .ios-empty-text {
   color: #64748b;
-  font-size: 0.78rem;
-  margin: 0 0 10px 0;
+  font-size: 0.84rem;
+  margin: 0 0 12px 0;
 }
 
 .ios-reset-btn {
-  background: rgba(239, 68, 68, 0.12);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(239, 68, 68, 0.35);
   color: #f87171;
-  font-size: 0.7rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  padding: 5px 12px;
-  border-radius: 8px;
+  padding: 6px 14px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
@@ -623,50 +625,50 @@ const resetFilters = () => {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(8, 11, 18, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(8, 11, 18, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
-  padding: 20px;
+  padding: 24px;
 }
 
 .ios-alert-card {
-  background: rgba(18, 23, 36, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 22px;
+  background: rgba(18, 23, 36, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 22px;
+  padding: 24px;
   width: 100%;
   max-width: 340px;
   text-align: center;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 24px 44px rgba(0, 0, 0, 0.65);
   animation: scaleUp 0.2s ease-out;
 }
 
 @keyframes scaleUp {
-  from { transform: scale(0.9); opacity: 0; }
+  from { transform: scale(0.92); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
 
 .ios-alert-icon-box {
-  width: 46px;
-  height: 46px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  background: rgba(239, 68, 68, 0.15);
+  background: rgba(239, 68, 68, 0.16);
   color: #f87171;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
-  margin: 0 auto 12px auto;
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  font-size: 1.4rem;
+  margin: 0 auto 14px auto;
+  border: 1px solid rgba(239, 68, 68, 0.35);
 }
 
 .alert-title {
   font-family: 'Poppins', sans-serif;
-  font-size: 1.1rem;
+  font-size: 1.18rem;
   font-weight: 700;
   color: #ffffff;
   margin: 0 0 6px 0;
@@ -674,45 +676,37 @@ const resetFilters = () => {
 
 .alert-desc {
   font-family: 'Inter', sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   color: #94a3b8;
-  margin: 0 0 18px 0;
-  line-height: 1.4;
+  margin: 0 0 20px 0;
+  line-height: 1.45;
 }
 
 .ios-alert-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  gap: 10px;
 }
 
 .ios-alert-btn {
-  padding: 10px;
-  border-radius: 10px;
+  padding: 11px;
+  border-radius: 12px;
   font-family: 'Inter', sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.84rem;
   font-weight: 600;
   cursor: pointer;
   border: none;
 }
 
 .ios-alert-btn.cancel {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.06);
   color: #cbd5e1;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.ios-alert-btn.cancel:hover {
-  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.09);
 }
 
 .ios-alert-btn.confirm {
   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
-}
-
-.ios-alert-btn.confirm:active {
-  transform: scale(0.97);
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.45);
 }
 </style>

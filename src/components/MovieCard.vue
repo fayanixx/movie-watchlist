@@ -72,77 +72,77 @@ defineEmits(['toggle', 'edit', 'delete']);
 
 <style scoped>
 .ios-movie-card {
-  background: rgba(20, 24, 36, 0.75);
+  background: rgba(20, 24, 36, 0.78);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
   transition: transform 0.2s ease, border-color 0.2s ease;
   width: 100%;
 }
 
 .ios-movie-card:hover {
-  border-color: rgba(248, 113, 113, 0.3);
+  border-color: rgba(248, 113, 113, 0.35);
 }
 
 .card-content {
-  padding: 12px 14px;
+  padding: 15px 16px;
 }
 
 .meta-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .genre-pill, .year-pill {
   display: inline-flex;
   align-items: center;
-  gap: 3px;
+  gap: 4px;
   font-family: 'Inter', sans-serif;
-  font-size: 0.65rem;
+  font-size: 0.72rem;
   font-weight: 600;
   color: #94a3b8;
-  background: rgba(255, 255, 255, 0.04);
-  padding: 2px 6px;
-  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 3px 8px;
+  border-radius: 6px;
 }
 
 .genre-pill {
   color: #f87171;
-  background: rgba(248, 113, 113, 0.1);
+  background: rgba(248, 113, 113, 0.12);
 }
 
 .inline-icon {
-  font-size: 0.7rem;
+  font-size: 0.78rem;
 }
 
 .movie-title {
   font-family: 'Poppins', sans-serif;
-  font-size: 0.98rem;
+  font-size: 1.06rem;
   font-weight: 600;
   color: #ffffff;
-  margin: 0 0 6px 0;
-  line-height: 1.3;
+  margin: 0 0 8px 0;
+  line-height: 1.35;
 }
 
 .rating-row {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 10px;
+  gap: 7px;
+  margin-bottom: 12px;
 }
 
 .stars-box {
   display: flex;
-  gap: 1px;
+  gap: 2px;
 }
 
 .star-mini {
-  font-size: 0.75rem;
+  font-size: 0.88rem;
   color: #334155;
 }
 
@@ -152,69 +152,69 @@ defineEmits(['toggle', 'edit', 'delete']);
 
 .rating-score {
   font-family: 'Poppins', sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.76rem;
   font-weight: 600;
   color: #fbbf24;
-  background: rgba(251, 191, 36, 0.1);
-  padding: 1px 5px;
-  border-radius: 4px;
+  background: rgba(251, 191, 36, 0.12);
+  padding: 2px 6px;
+  border-radius: 5px;
 }
 
 .card-footer-ios {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 8px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .status-ios-btn {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px 8px;
-  border-radius: 14px;
+  gap: 5px;
+  padding: 6px 11px;
+  border-radius: 16px;
   font-family: 'Inter', sans-serif;
-  font-size: 0.68rem;
+  font-size: 0.74rem;
   font-weight: 600;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.05);
   color: #94a3b8;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.07);
   cursor: pointer;
 }
 
 .status-ios-btn.is-done {
-  background: rgba(34, 197, 94, 0.12);
+  background: rgba(34, 197, 94, 0.14);
   color: #4ade80;
-  border-color: rgba(34, 197, 94, 0.3);
+  border-color: rgba(34, 197, 94, 0.35);
 }
 
 .action-icons-row {
   display: flex;
-  gap: 4px;
+  gap: 6px;
 }
 
 .ios-icon-action {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  width: 26px;
-  height: 26px;
-  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #94a3b8;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
 
 .ios-icon-action.edit:hover {
   color: #38bdf8;
-  background: rgba(56, 189, 248, 0.1);
+  background: rgba(56, 189, 248, 0.12);
 }
 
 .ios-icon-action.delete:hover {
   color: #f87171;
-  background: rgba(248, 113, 113, 0.1);
+  background: rgba(248, 113, 113, 0.12);
 }
 </style>
